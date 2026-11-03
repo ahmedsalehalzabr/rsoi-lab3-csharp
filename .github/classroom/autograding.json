@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Build Solution",
+      "setup": "",
+      "run": "dotnet build RsoiLab3.sln",
+      "input": "",
+      "output": "Build succeeded",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}
