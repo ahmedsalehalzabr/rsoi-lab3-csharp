@@ -9,6 +9,16 @@
       "comparison": "included",
       "timeout": 10,
       "points": 1
+    },
+    {
+      "name": "Run Postman Collection",
+      "setup": "docker compose up -d --build && sleep 25",
+      "run": "newman run ./postman/collection.json -e ./postman/environment.json --reporters cli",
+      "input": "",
+      "output": "0",
+      "comparison": "included",
+      "timeout": 20,
+      "points": 1
     }
   ]
 }

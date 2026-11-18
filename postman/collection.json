@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "RsoiLab3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Gateway",
+      "request": { "method": "GET", "url": "http://localhost:8080/manage/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response time < 2000ms', () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+      ]}}]
+    },
+    {
+      "name": "Health Flight",
+      "request": { "method": "GET", "url": "http://localhost:8081/manage/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response time < 2000ms', () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+      ]}}]
+    },
+    {
+      "name": "Health Ticket",
+      "request": { "method": "GET", "url": "http://localhost:8082/manage/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response time < 2000ms', () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+      ]}}]
+    },
+    {
+      "name": "Health Airline",
+      "request": { "method": "GET", "url": "http://localhost:8083/manage/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response time < 2000ms', () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+      ]}}]
+    },
+    {
+      "name": "Get Flights",
+      "request": { "method": "GET", "url": "http://localhost:8080/api/flights" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response is array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+      ]}}]
+    },
+    {
+      "name": "Get Tickets",
+      "request": { "method": "GET", "url": "http://localhost:8080/api/tickets" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response is array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+      ]}}]
+    },
+    {
+      "name": "Get Airlines",
+      "request": { "method": "GET", "url": "http://localhost:8080/api/airlines" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Response is array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+      ]}}]
+    },
+    {
+      "name": "Book Ticket",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"flightId\":1,\"username\":\"testuser\"}" },
+        "url": "http://localhost:8080/api/book"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Status is success or accepted', () => pm.expect(pm.response.json().status).to.be.oneOf(['success','accepted']));"
+      ]}}]
+    }
+  ]
+}

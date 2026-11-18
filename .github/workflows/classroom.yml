@@ -22,10 +22,48 @@ jobs:
       - name: Build
         run: dotnet build RsoiLab3.sln --configuration Release
 
-      - name: Test
+      - name: Test (Unit)
         run: dotnet test RsoiLab3.sln --configuration Release --no-build
+
+      - name: Start services via Docker Compose
+        run: |
+          docker compose up -d --build
+          echo "Waiting for services..."
+          sleep 30
+          docker compose ps
+
+      - name: Wait for health endpoints
+        run: |
+          for port in 8080 8081 8082 8083; do
+            echo "Checking http://localhost:$port/manage/health"
+            for i in $(seq 1 30); do
+              if curl -sf "http://localhost:$port/manage/health" > /dev/null; then
+                echo "Port $port ready"
+                break
+              fi
+              sleep 2
+            done
+          done
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman tests (Newman)
+        run: |
+          newman run ./postman/collection.json \
+            -e ./postman/environment.json \
+            --reporters cli
 
       - name: Run Autograding
         uses: education/autograding@v1
         id: autograder
         continue-on-error: true
+
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose down -v
